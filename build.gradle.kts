@@ -21,7 +21,7 @@ val openApiWebMvc = "2.5.0"
 val jupiterVersion = "5.10.2"
 val assertjVersion = "3.25.3"
 val mockkVersion = "1.13.11"
-group = "com.pankajapps.groceriesrestfulapi"
+group = "com.pankajapps"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -35,6 +35,10 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
