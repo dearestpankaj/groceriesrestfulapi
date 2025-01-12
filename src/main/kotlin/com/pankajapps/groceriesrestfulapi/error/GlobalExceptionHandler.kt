@@ -4,15 +4,47 @@ import org.apache.logging.log4j.message.Message
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
 class GlobalExceptionHandler: ResponseEntityExceptionHandler() {
 
-    private fun buildResponseEntity(status: HttpStatus, message: String): ResponseEntity<ApiError> {
+    private fun buildResponseEntity(status: HttpStatus, message: String?): ResponseEntity<ApiError> {
         val error = ApiError(message = message, status = status)
         return  ResponseEntity(error, status)
     }
+
+    @ExceptionHandler(
+        UserNotFoundException::class,
+        ShoppingListNotFoundException::class,
+        ShoppingListItemNotFoundException::class
+    )
+    fun handleNotFoundException(exception: RuntimeException): ResponseEntity<ApiError> =
+        buildResponseEntity(HttpStatus.NOT_FOUND, exception.message)
+
+    @ExceptionHandler(
+        SignUpException::class,
+        PasswordMismatchException::class
+    )
+    fun handleConflictException(exception: RuntimeException): ResponseEntity<ApiError> =
+        buildResponseEntity(HttpStatus.CONFLICT, exception.message)
+
+    @ExceptionHandler(
+        JwtAuthenticationException::class,
+        UsernamePasswordMismatchException::class,
+        AccountVerificationException::class,
+        TokenExpiredException::class
+    )
+    fun handleUnauthorizedException(exception: RuntimeException): ResponseEntity<ApiError> =
+        buildResponseEntity(HttpStatus.UNAUTHORIZED, exception.message)
+
+    @ExceptionHandler(
+        BadRequestException::class,
+        SupermarketException::class,
+    )
+    fun handleBadRequestException(exception: RuntimeException): ResponseEntity<ApiError> =
+        buildResponseEntity(HttpStatus.BAD_REQUEST, exception.message)
 }
 
 class BadRequestException(message: String): RuntimeException(message)
