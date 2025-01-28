@@ -122,30 +122,30 @@ paths:
                 $ref: '#/components/schemas/ApiError'
   /api/v1/auth/verify:
     get:
-      tags:
-        - authentication-resource
-      summary: verify user
-      operationId: verify
-      description: method to verify user or inform about verification problem
-      parameters:
-        - name: token
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: email verification was successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmailConfirmedResponse'
-        '403':
-          description: Verification step not completed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiError'
+     tags:
+       - authentication-resource
+     summary: verify user
+     operationId: verify
+     description: method to verify user or inform about verification problem
+     parameters:
+       - name: token
+         in: query
+         required: true
+         schema:
+           type: string
+     responses:
+       '200':
+         description: email verification was successful
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/EmailConfirmedResponse'
+       '403':
+         description: Verification step not completed
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/ApiError'
   /api/v1/auth/sign-in:
     post:
       tags:

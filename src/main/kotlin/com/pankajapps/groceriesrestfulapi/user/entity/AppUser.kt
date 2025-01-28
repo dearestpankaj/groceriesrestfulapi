@@ -1,12 +1,17 @@
 package com.pankajapps.groceriesrestfulapi.user.entity
 
+import com.pankajapps.groceriesrestfulapi.retail.entity.ShoppingList
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import jakarta.persistence.OneToOne
 import jakarta.persistence.SequenceGenerator
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
@@ -47,6 +52,11 @@ class AppUser (
 
     var isVerified: Boolean = false,
 
+    @OneToOne(mappedBy = "appUser", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, optional = true)
+    private val verificationToken: VerificationToken? = null,
+
+    @OneToMany(mappedBy = "appUser", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    private  val shoppingList: List<ShoppingList>? = null
 
 ) : UserDetails {
     override fun getAuthorities(): Collection<GrantedAuthority?>? {
